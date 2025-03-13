@@ -1,6 +1,7 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.task_master_2_0">
     <application
-        android:label="task_master_2_0"
+        android:label="Task Master"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -42,4 +43,10 @@
             <data android:mimeType="text/plain"/>
         </intent>
     </queries>
+    <!-- Remove any notification-related permissions like: -->
+    <!-- <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/> -->
+    <!-- <uses-permission android:name="android.permission.VIBRATE" /> -->
+    <!-- <uses-permission android:name="android.permission.WAKE_LOCK" /> -->
+
+    <!-- And any notification-related services -->
 </manifest>

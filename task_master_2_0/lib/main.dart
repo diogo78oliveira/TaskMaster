@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:task_master_2_0/firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:task_master_2_0/models/task_model.dart';
@@ -7,13 +8,23 @@ import 'package:task_master_2_0/screens/login_screen.dart';
 import 'package:task_master_2_0/services/auth_service.dart';
 import 'package:task_master_2_0/services/task_service.dart';
 import 'package:task_master_2_0/home_screen.dart';
-import 'firebase_options.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  
+  // Set preferred orientations for better performance if needed
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
+  
+  // Optimize Flutter engine configurations
+  PaintingBinding.instance.imageCache.maximumSize = 100;
+  
   runApp(const MyApp());
 }
 
@@ -162,6 +173,12 @@ class MyAppState extends State<MyApp> {
             backgroundColor: lightColorScheme.primary,
           ),
         ),
+        pageTransitionsTheme: const PageTransitionsTheme(
+          builders: {
+            TargetPlatform.android: ZoomPageTransitionsBuilder(),
+            TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+          },
+        ),
       ),
       darkTheme: ThemeData(
         colorScheme: darkColorScheme,
@@ -224,8 +241,23 @@ class MyAppState extends State<MyApp> {
             backgroundColor: darkColorScheme.primary,
           ),
         ),
+        pageTransitionsTheme: const PageTransitionsTheme(
+          builders: {
+            TargetPlatform.android: ZoomPageTransitionsBuilder(),
+            TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+          },
+        ),
       ),
       themeMode: _themeMode,
+      builder: (context, child) {
+        return ScrollConfiguration(
+          behavior: ScrollBehavior().copyWith(
+            overscroll: false,
+            physics: const ClampingScrollPhysics(),
+          ),
+          child: child!,
+        );
+      },
       home: const AuthCheckScreen(),
     );
   }

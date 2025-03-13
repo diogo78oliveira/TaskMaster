@@ -1,0 +1,12 @@
+// ...existing code...
+dependencies {
+    // ...existing code...
+}
+// ...existing code...
+
+// Add this section at the end of the file
+configurations.all {
+    resolutionStrategy {
+        force 'com.github.MaikuB:flutter_local_notifications:10.0.0'  // Use a newer version that has namespace defined
+    }
+}
